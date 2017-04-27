@@ -3,6 +3,8 @@ package com.game_base.stage;
 import java.util.List;
 
 import com.game_base.base.FightRole;
+import com.game_base.listener.AbstractStageEventListener;
+import com.game_base.listener.TestEventListener;
 
 /**
  * 单例
@@ -13,6 +15,7 @@ public class StageManager {
     private static StageManager stageManager = null;
     private Stage stage;
     private StageChecker stageChecker;
+    private AbstractStageEventListener stageEventListener;
     
     static {
         if (stageManager == null) {
@@ -46,5 +49,12 @@ public class StageManager {
             stageChecker = new PveChecker();
         }
         return stageChecker;
+    }
+
+    public AbstractStageEventListener getStageEventListener() {
+        if (stageEventListener == null) {
+            stageEventListener = new TestEventListener();
+        }
+        return stageEventListener;
     }
 }

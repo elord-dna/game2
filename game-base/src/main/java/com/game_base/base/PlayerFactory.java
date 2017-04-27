@@ -18,7 +18,8 @@ public class PlayerFactory {
         Random rd = new Random();
         fr.setAtk(rd.nextInt(10) + 20);
         fr.setDef(rd.nextInt(9) + 3);
-        fr.setHp(rd.nextInt(50) + 100);
+        fr.setMaxHp(rd.nextInt(50) + 100);
+        fr.setHp(fr.getMaxHp());
         fr.setLv(rd.nextInt(10) + 1);
         fr.setSpeed(rd.nextInt(5) + 3);
     }

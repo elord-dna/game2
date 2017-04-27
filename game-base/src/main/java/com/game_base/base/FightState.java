@@ -11,5 +11,6 @@ public enum FightState {
     WEAK,
     WAKEUP,
     SLEEPY,
+    HURT,
     TAIRED;
 }
