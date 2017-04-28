@@ -110,11 +110,12 @@ public class Stage {
                             }
                             a.attack(aliveTeamA.get(0));
                         }
+                        Thread.sleep(800);
                     }
 //                    actionList.forEach(a -> {
 //                    });
                 }
-                Thread.sleep(300);
+//                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

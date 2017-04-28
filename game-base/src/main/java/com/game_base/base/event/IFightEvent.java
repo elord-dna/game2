@@ -9,6 +9,7 @@ import com.game_base.stage.StageManager;
  */
 public interface IFightEvent {
     AbstractStageEventListener stageListener = StageManager.getInstance().getStageEventListener();
+    EventManager eventManager = EventManager.getInstance();
     default void gainHealth(FightRole role, int val) {
         stageListener.onGainHealth(role, val);
     }
@@ -27,5 +28,7 @@ public interface IFightEvent {
 
     default void getHurt(FightRole role, int val) {
         stageListener.onGetHurt(role, val);
+        // FIXME
+
     }
 }

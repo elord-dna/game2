@@ -3,6 +3,9 @@ package com.game_base.stage;
 import java.util.List;
 
 import com.game_base.base.FightRole;
+import com.game_base.base.event.Callback;
+import com.game_base.base.event.FightEvent;
+import com.game_base.base.event.IFightEvent;
 import com.game_base.listener.AbstractStageEventListener;
 import com.game_base.listener.TestEventListener;
 
@@ -56,5 +59,10 @@ public class StageManager {
             stageEventListener = new TestEventListener();
         }
         return stageEventListener;
+    }
+
+    public void on(FightRole role, FightEvent event, Callback callback) {
+        // TODO 通用的绑定时事件，而不是特定回调事件的绑定，也可以处理特定的回调事件
+        // 是否暴露给外部扩展
     }
 }
