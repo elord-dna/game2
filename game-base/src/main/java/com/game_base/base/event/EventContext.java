@@ -2,6 +2,9 @@ package com.game_base.base.event;
 
 import com.game_base.base.FightRole;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/4/28 0028.
  */
@@ -10,6 +13,7 @@ public class EventContext {
     private FightRole execObj;     // 执行对象
     private FightRole aimObj;      // 目标对象
     private FightRole causeObj;   // 原因对象
+    private FightEvent event;       // 当前触发事件
 
     private int val = 0;                // 触发值
 
@@ -51,5 +55,18 @@ public class EventContext {
 
     public void setCauseObj(FightRole causeObj) {
         this.causeObj = causeObj;
+    }
+
+    public FightEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(FightEvent event) {
+        this.event = event;
+    }
+
+    public Map<FightRole, Map<FightEvent, List<Callback>>> getEventMap() {
+        EventManager eventManager = EventManager.getInstance();
+        return eventManager.getEventMap();
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.game_base.base.FightRole;
 import com.game_base.base.event.Callback;
+import com.game_base.base.event.EventManager;
 import com.game_base.base.event.FightEvent;
 import com.game_base.base.event.IFightEvent;
 import com.game_base.listener.AbstractStageEventListener;
@@ -19,6 +20,7 @@ public class StageManager {
     private Stage stage;
     private StageChecker stageChecker;
     private AbstractStageEventListener stageEventListener;
+    private static EventManager eventManager;
     
     static {
         if (stageManager == null) {
@@ -61,8 +63,17 @@ public class StageManager {
         return stageEventListener;
     }
 
+    public EventManager getEventManager() {
+        if (eventManager == null) {
+            eventManager = new EventManager();
+        }
+        return eventManager;
+    }
+
     public void on(FightRole role, FightEvent event, Callback callback) {
         // TODO 通用的绑定时事件，而不是特定回调事件的绑定，也可以处理特定的回调事件
         // 是否暴露给外部扩展
+        EventManager eventManager = getEventManager();
+        eventManager.bindAction(role, event, callback);
     }
 }

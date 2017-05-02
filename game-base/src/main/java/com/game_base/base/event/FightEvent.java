@@ -9,5 +9,8 @@ public enum FightEvent {
     CAUSEDAMAGE,
     BEDAMAGED,
     GEHURT,
+
+    BEFOREFIGHT,
+    AFTERFIGHT,
     ;
 }

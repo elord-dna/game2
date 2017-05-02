@@ -1,9 +1,8 @@
 package com.game_base.base.action;
 
-import java.util.List;
-import java.util.Map;
-
 import com.game_base.base.FightRole;
+
+import java.util.List;
 
 public interface FightSkill {
     /**
@@ -12,5 +11,5 @@ public interface FightSkill {
      * @param aimed
      * @return
      */
-    public abstract Map<String, Object> execute(FightRole user, List<FightRole> aimed);
+    public abstract void execute(FightRole user, List<FightRole> aimed);
 }

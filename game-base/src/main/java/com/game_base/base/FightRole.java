@@ -124,6 +124,10 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         // TODO
     }
 
+    private void equipSkill(Skill skill) {
+        // TODO
+    }
+
     @Override
     public String toString() {
         return "FightRole [hp=" + hp + ", atk=" + atk + ", def=" + def
