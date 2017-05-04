@@ -10,6 +10,11 @@ public enum FightEvent {
     BEDAMAGED,
     GEHURT,
 
+    UPATK,
+    DOWNATK,
+    UPDEF,
+    DOWNDEF,
+
     BEFOREFIGHT,
     AFTERFIGHT,
     ;

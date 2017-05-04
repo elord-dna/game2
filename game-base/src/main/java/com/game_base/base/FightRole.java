@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.game_base.base.action.FightAction;
+import com.game_base.base.event.Callback;
+import com.game_base.base.event.FightEvent;
 import com.game_base.base.event.IFightEvent;
 import com.game_base.stage.StageManager;
 
@@ -117,6 +119,85 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         this.fightStruct = fightStruct;
     }
 
+    public int getFightAtk() {
+        return fightStruct.getAtk();
+    }
+
+    public void setFightAtk(int atk) {
+        fightStruct.setAtk(atk);
+    }
+
+    public int getFightDef() {
+        return fightStruct.getDef();
+    }
+
+    public void setFightDef(int def) {
+        fightStruct.setDef(def);
+    }
+
+    public void upAtk(int val) {
+        setFightAtk(getFightAtk() + val);
+        triggle(FightEvent.UPATK);
+    }
+
+    public void downAtk(int val) {
+        setFightAtk(getFightAtk() - val);
+    }
+
+    public void upAtk(double per) {
+        int val = (int) (getAtk() * per);
+        upAtk(val);
+    }
+
+    public void downAtk(double per) {
+        int val = (int) (getAtk() * per);
+        downAtk(val);
+    }
+
+    public void upDef(int val) {
+        setFightDef(getFightDef() + val);
+    }
+
+    public void downDef(int val) {
+        setFightDef(getFightDef() - val);
+    }
+
+    public void upDef(double per) {
+        int val = (int) (def * per);
+        upDef(val);
+    }
+
+    public void downDef(double per) {
+        int val = (int) (def * per);
+        downDef(val);
+    }
+
+    public int getFightSpeed() {
+        return fightStruct.getSpeed();
+    }
+
+    public void setFightSpeed(int speed) {
+        fightStruct.setSpeed(speed);
+    }
+
+    public void upSpeed(int val) {
+        setFightSpeed(getFightSpeed() + val);
+    }
+
+    public void upSpeed(double per) {
+        int val = (int) (speed * per);
+        upSpeed(val);
+    }
+
+    public void downSpeed(int val) {
+        setFightSpeed(getFightSpeed() + val);
+    }
+
+    public void downSpeed(double per) {
+        int val = (int) (speed * per);
+        downSpeed(val);
+    }
+
     public void gainHealth() {
         // TODO
     }
@@ -126,6 +207,21 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     private void equipSkill(Skill skill) {
         // TODO
+    }
+
+    @Override
+    public void on(FightEvent event, Callback callback) {
+        eventManager.bindAction(this, event ,callback);
+    }
+
+    @Override
+    public void one(FightEvent event, Callback callback) {
+        eventManager.one(this, event, callback);
+    }
+
+    @Override
+    public void triggle(FightEvent event) {
+        //
     }
 
     @Override

@@ -31,4 +31,10 @@ public interface IFightEvent {
         // FIXME
 
     }
+
+    void on(FightEvent event, Callback callback);
+
+    void one(FightEvent event, Callback callback);
+
+    void triggle(FightEvent event);
 }

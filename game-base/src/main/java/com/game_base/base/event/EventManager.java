@@ -44,6 +44,10 @@ public class EventManager {
 
     }
 
+    public void removeCallback(Callback callback) {
+        // TODO
+    }
+
     public void bindAction(FightRole role, FightEvent event, Callback callback) {
         Map<FightEvent, List<Callback>> eventListMap;
         if (eventMap.containsKey(role)) {
@@ -62,5 +66,10 @@ public class EventManager {
 
     public void one(FightRole role, FightEvent event, Callback callback) {
 
+    }
+
+    public void triggle(FightRole role, FightEvent event) {
+        List<Callback> callbacks = eventMap.get(role).get(event);
+        callbacks.forEach(Callback::call);
     }
 }
