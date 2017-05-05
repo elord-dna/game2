@@ -1,6 +1,8 @@
 package com.game_base.base;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.game_base.base.action.FightAction;
@@ -25,6 +27,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
     private FightStruct fightStruct;
 
     private StageManager stageManager = StageManager.getInstance();
+    private List<Skill> skillList;
 
     protected FightRole() {
     }
@@ -33,6 +36,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         super(name);
         this.fightState.add(FightState.ALIVE);
         this.fightStruct = new FightStruct(this);
+        skillList = new ArrayList<>();
     }
 
     public FightRole(FightRole fr) {
@@ -142,6 +146,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     public void downAtk(int val) {
         setFightAtk(getFightAtk() - val);
+        triggle(FightEvent.DOWNATK);
     }
 
     public void upAtk(double per) {
@@ -156,10 +161,12 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     public void upDef(int val) {
         setFightDef(getFightDef() + val);
+        triggle(FightEvent.UPDEF);
     }
 
     public void downDef(int val) {
         setFightDef(getFightDef() - val);
+        triggle(FightEvent.DOWNDEF);
     }
 
     public void upDef(double per) {
@@ -200,18 +207,29 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     public void gainHealth() {
         // TODO
+        triggle(FightEvent.GAINHEALTH);
     }
     public void loseHealth() {
         // TODO
+        triggle(FightEvent.LOSEHHEALTH);
     }
 
     private void equipSkill(Skill skill) {
         // TODO
+        // 当前角色切换
+        toCurrentRole();
+        // TODO judge if skill is permit
+        skillList.add(skill);
+        skill.init();
+    }
+
+    public void toCurrentRole() {
+        stageManager.getEventManager().getEventContext().setCurrentObj(this);
     }
 
     @Override
     public void on(FightEvent event, Callback callback) {
-        eventManager.bindAction(this, event ,callback);
+        eventManager.on(this, event ,callback);
     }
 
     @Override
@@ -221,7 +239,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     @Override
     public void triggle(FightEvent event) {
-        //
+        eventManager.triggle(this, event);
     }
 
     @Override

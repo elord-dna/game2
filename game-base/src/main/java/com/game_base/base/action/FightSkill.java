@@ -11,5 +11,5 @@ public interface FightSkill {
      * @param aimed
      * @return
      */
-    public abstract void execute(FightRole user, List<FightRole> aimed);
+    void execute(FightRole user, List<FightRole> aimed);
 }

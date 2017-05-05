@@ -2,10 +2,7 @@ package com.game_base.base.event;
 
 import com.game_base.base.FightRole;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/4/28 0028.
@@ -13,7 +10,7 @@ import java.util.Map;
 public class EventManager {
     private static EventManager eventManager;
     // 仅作为战斗用的事件管理器
-    private static Map<FightRole, Map<FightEvent, List<Callback>>> eventMap;
+    private static Map<FightRole, Map<FightEvent, List<CallAction>>> eventMap;
     private static EventContext eventContext;
 
     public static EventManager getInstance() {
@@ -25,7 +22,7 @@ public class EventManager {
         return eventManager;
     }
 
-    public Map<FightRole, Map<FightEvent, List<Callback>>> getEventMap() {
+    public Map<FightRole, Map<FightEvent, List<CallAction>>> getEventMap() {
         return eventMap;
     }
     public EventContext getEventContext() {
@@ -48,28 +45,39 @@ public class EventManager {
         // TODO
     }
 
-    public void bindAction(FightRole role, FightEvent event, Callback callback) {
-        Map<FightEvent, List<Callback>> eventListMap;
+    private void bindAction(FightRole role, FightEvent event, CallAction callAction) {
+        Map<FightEvent, List<CallAction>> eventListMap;
         if (eventMap.containsKey(role)) {
             eventListMap = eventMap.get(role);
         } else {
             eventListMap = new HashMap<>();
         }
-        List<Callback> callbacks;
+        List<CallAction> callActions;
         if (eventListMap.containsKey(event)) {
-            callbacks = eventListMap.get(event);
+            callActions = eventListMap.get(event);
         } else {
-            callbacks = new ArrayList<>();
+            callActions = new LinkedList<>();
         }
-        callbacks.add(callback);
+        callActions.add(callAction);
+    }
+
+    public void on(FightRole role, FightEvent event, Callback callback) {
+        bindAction(role, event, new CallAction(callback));
+    }
+
+    public void on(FightRole role, FightEvent event, Callback callback, int times) {
+        bindAction(role, event, new CallAction(callback, times));
     }
 
     public void one(FightRole role, FightEvent event, Callback callback) {
-
+        bindAction(role, event, new CallAction(callback, 1));
     }
 
     public void triggle(FightRole role, FightEvent event) {
-        List<Callback> callbacks = eventMap.get(role).get(event);
-        callbacks.forEach(Callback::call);
+        List<CallAction> callActions = eventMap.get(role).get(event);
+        callActions.forEach(Callback::call);
+        callActions.removeIf(callAction -> {
+            return !callAction.isEffective();
+        });
     }
 }

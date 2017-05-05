@@ -65,7 +65,7 @@ public class EventContext {
         this.event = event;
     }
 
-    public Map<FightRole, Map<FightEvent, List<Callback>>> getEventMap() {
+    public Map<FightRole, Map<FightEvent, List<CallAction>>> getEventMap() {
         EventManager eventManager = EventManager.getInstance();
         return eventManager.getEventMap();
     }

@@ -74,6 +74,6 @@ public class StageManager {
         // TODO 通用的绑定时事件，而不是特定回调事件的绑定，也可以处理特定的回调事件
         // 是否暴露给外部扩展
         EventManager eventManager = getEventManager();
-        eventManager.bindAction(role, event, callback);
+        eventManager.on(role, event, callback);
     }
 }

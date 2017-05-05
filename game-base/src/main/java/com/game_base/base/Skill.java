@@ -46,6 +46,8 @@ public abstract class Skill implements FightSkill {
     public void setSkillScope(SkillScope skillScope) {
         this.skillScope = skillScope;
     }
+
+    public abstract void init();
     @Override
     public String toString() {
         return String.format("%s[Lv%d]", name, level);
