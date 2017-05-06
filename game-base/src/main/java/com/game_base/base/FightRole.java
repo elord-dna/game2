@@ -32,6 +32,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
     protected FightRole() {
     }
 
+    // TODO 这儿的初始化方法需要修正
     public FightRole(String name) {
         super(name);
         this.fightState.add(FightState.ALIVE);
@@ -46,6 +47,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         this.atk = fr.atk;
         this.def = fr.def;
         this.speed = fr.speed;
+        this.fightStruct = new FightStruct(this);
     }
 
     public boolean isAlive() {
@@ -139,6 +141,10 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         fightStruct.setDef(def);
     }
 
+    public List<Skill> getSkillList() {
+        return skillList;
+    }
+
     public void upAtk(int val) {
         setFightAtk(getFightAtk() + val);
         triggle(FightEvent.UPATK);
@@ -214,7 +220,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         triggle(FightEvent.LOSEHHEALTH);
     }
 
-    private void equipSkill(Skill skill) {
+    public void equipSkill(Skill skill) {
         // TODO
         // 当前角色切换
         toCurrentRole();

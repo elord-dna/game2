@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.game_base.base.action.FightAction;
+import com.game_base.base.event.FightEvent;
 import com.game_base.stage.StageManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Player extends FightRole implements FightAction {
+    private static final Logger log = LogManager.getLogger(Player.class);
     private StageManager stageManager = StageManager.getInstance();
     
     public Player() {}
@@ -21,7 +25,8 @@ public class Player extends FightRole implements FightAction {
         if (!(r instanceof Player)) {
             return;
         }
-        System.out.println(String.format("%s攻击了%s: ", this.getName(), r.getName()));
+        log.info("{}攻击了{}", this.getName(), r.getName());
+//        System.out.println(String.format("%s攻击了%s: ", this.getName(), r.getName()));
         stageManager.getStageChecker().attackChecker();
         Player p = (Player) r;
         int dmg = countDamage(this, r);
@@ -33,7 +38,7 @@ public class Player extends FightRole implements FightAction {
     protected int countDamage(FightRole r1, FightRole r2) {
         // 计算伤害的新方法
         // 防御因子
-        double k1 = (6 * r2.getDef()) / ((90 + 10 * r2.getLv()) + 6 * r2.getDef());
+        double k1 = (double)(6 * r2.getFightDef()) / ((90 + 10 * r2.getLv()) + 6 * r2.getFightDef());
         // 等级因子
         int dlv = r2.getLv() - r1.getLv();
         double k2 = 0;
@@ -43,7 +48,7 @@ public class Player extends FightRole implements FightAction {
             k2 = 10 * dlv / (100 - 2 * dlv);
         }
         // damage
-        int dmg = (int) (r1.getAtk() * (1-k1) * (1-k2));
+        int dmg = (int) (r1.getFightAtk() * (1-k1) * (1-k2));
         return dmg;
     }
 
@@ -61,7 +66,9 @@ public class Player extends FightRole implements FightAction {
 
     @Override
     public Map<String, Object> attack(FightRole r) {
+        triggle(FightEvent.BEFOREFIGHT);
         normalAttack(r);
+        triggle(FightEvent.AFTERFIGHT);
         stageManager.getStageChecker().diedChecker();
         stageManager.getStageChecker().endChecker();
         return null;

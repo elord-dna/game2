@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Administrator on 2017/5/2 0002.
@@ -21,6 +22,7 @@ public class HeavyHit extends Skill {
     public HeavyHit(int lv) {
         super();
         this.setName("HeavyHit");
+        this.setLevel(lv);
     }
     @Override
     public void execute(FightRole user, List<FightRole> aimed) {
@@ -44,7 +46,10 @@ public class HeavyHit extends Skill {
         EventContext eventContext = eventManager.getEventContext();
         FightRole curRole = eventContext.getCurrentObj();
         curRole.on(FightEvent.BEFOREFIGHT, ()->{
-            execute(curRole, null);
+            double rd = new Random().nextDouble();
+            if (rd < 0.3) {
+                execute(curRole, null);
+            }
         });
     }
 }

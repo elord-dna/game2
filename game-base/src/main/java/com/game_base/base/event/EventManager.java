@@ -13,6 +13,14 @@ public class EventManager {
     private static Map<FightRole, Map<FightEvent, List<CallAction>>> eventMap;
     private static EventContext eventContext;
 
+    static {
+        if (eventManager == null) {
+            eventManager = new EventManager();
+            eventMap = new HashMap<>();
+            eventContext = new EventContext();
+        }
+    }
+
     public static EventManager getInstance() {
         if (eventManager == null) {
             eventManager = new EventManager();
@@ -23,7 +31,19 @@ public class EventManager {
     }
 
     public Map<FightRole, Map<FightEvent, List<CallAction>>> getEventMap() {
+        if (eventMap == null) {
+            eventMap = new HashMap<>();
+        }
         return eventMap;
+    }
+
+    private List<CallAction> getCallActions(FightRole role, FightEvent event) {
+        List<CallAction> lists = null;
+        Map<FightEvent, List<CallAction>> eventList = getEventMap().get(role);
+        if (eventList != null && !eventList.isEmpty()) {
+            lists = eventList.get(event);
+        }
+        return lists;
     }
     public EventContext getEventContext() {
         return eventContext;
@@ -59,6 +79,8 @@ public class EventManager {
             callActions = new LinkedList<>();
         }
         callActions.add(callAction);
+        eventListMap.put(event, callActions);
+        eventMap.put(role, eventListMap);
     }
 
     public void on(FightRole role, FightEvent event, Callback callback) {
@@ -74,7 +96,10 @@ public class EventManager {
     }
 
     public void triggle(FightRole role, FightEvent event) {
-        List<CallAction> callActions = eventMap.get(role).get(event);
+        List<CallAction> callActions = getCallActions(role, event);
+        if (callActions == null) {
+            return;
+        }
         callActions.forEach(Callback::call);
         callActions.removeIf(callAction -> {
             return !callAction.isEffective();
