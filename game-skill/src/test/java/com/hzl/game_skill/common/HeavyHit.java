@@ -22,7 +22,7 @@ public class HeavyHit extends Skill {
         this.setLevel(level);
     }
     @Override
-    public void execute(FightRole user, List<FightRole> aimed) {
+    public void execute(FightRole user, FightRole aimed) {
         Map<String, Object> map = new HashMap<>();
     }
 

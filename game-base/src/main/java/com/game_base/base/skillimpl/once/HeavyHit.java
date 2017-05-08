@@ -16,6 +16,7 @@ import java.util.Random;
  */
 public class HeavyHit extends Skill {
     private static final Logger log = LogManager.getLogger(HeavyHit.class);
+    private final int lvDmg = 5;
     public HeavyHit() {
         this(1);
     }
@@ -25,17 +26,17 @@ public class HeavyHit extends Skill {
         this.setLevel(lv);
     }
     @Override
-    public void execute(FightRole user, List<FightRole> aimed) {
+    public void execute(FightRole user, FightRole aimed) {
         log.info("{}使用了{}", user.getName(), this.getName());
         EventManager eventManager = EventManager.getInstance();
         FightRole curRole = user;
         int atk = curRole.getFightStruct().getAtk();
-        atk += this.getLevel() * 3;
+        atk += this.getLevel() * lvDmg;
         curRole.getFightStruct().setAtk(atk);
 
         curRole.one(FightEvent.AFTERFIGHT, ()->{
             int atk2 = curRole.getFightStruct().getAtk();
-            atk2 -= this.getLevel() * 3;
+            atk2 -= this.getLevel() * lvDmg;
             curRole.getFightStruct().setAtk(atk2);
         });
     }

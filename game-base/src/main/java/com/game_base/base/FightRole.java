@@ -211,8 +211,9 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         downSpeed(val);
     }
 
-    public void gainHealth() {
-        // TODO
+    public void gainHealth(int val) {
+        int origin = getHp();
+        setHp(origin + val);
         triggle(FightEvent.GAINHEALTH);
     }
     public void loseHealth() {
@@ -250,8 +251,13 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     @Override
     public String toString() {
-        return "FightRole [hp=" + hp + ", atk=" + atk + ", def=" + def
-                + ", speed=" + speed + "]";
+        return "FightRole{" +
+                "maxHp=" + maxHp +
+                ", hp=" + hp +
+                ", atk=" + atk +
+                ", def=" + def +
+                ", speed=" + speed +
+                ", fightStruct=" + fightStruct +
+                '}';
     }
-
 }

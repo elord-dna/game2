@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.game_base.base.action.FightAction;
 import com.game_base.base.event.FightEvent;
+import com.game_base.base.event.FromTo;
+import com.game_base.base.event.FromTos;
+import com.game_base.base.event.ValueType;
 import com.game_base.stage.StageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +35,7 @@ public class Player extends FightRole implements FightAction {
         int dmg = countDamage(this, r);
         int leftHP = p.getHp() - dmg;
         leftHP = leftHP<0? 0 : leftHP;
+        stageManager.getEventManager().getEventContext().setVal(FromTos.getFromTo(this, r), ValueType.DAMAGE, dmg);
         System.out.println(String.format("%s对%s造成了%d点伤害，%s剩余%dHP", this.getName(), r.getName(), dmg, r.getName(), leftHP));
         p.setHp(leftHP);
     }
@@ -66,9 +70,11 @@ public class Player extends FightRole implements FightAction {
 
     @Override
     public Map<String, Object> attack(FightRole r) {
+        stageManager.getEventManager().getEventContext().setAimObj(r);
         triggle(FightEvent.BEFOREFIGHT);
         normalAttack(r);
         triggle(FightEvent.AFTERFIGHT);
+        stageManager.getEventManager().getEventContext().setAimObj(null);
         stageManager.getStageChecker().diedChecker();
         stageManager.getStageChecker().endChecker();
         return null;

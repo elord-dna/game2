@@ -77,6 +77,15 @@ public class Stage {
         initDual();
         dualing();
     }
+
+    private void startRound(FightRole role) {
+        StageManager.getInstance().startRound(role);
+    }
+
+    private void endRound(FightRole role) {
+        // TODO role的回合结束
+        StageManager.getInstance().startRound(role);
+    }
     
     private void initDual() {
         aliveList = new ArrayList<>();
@@ -98,6 +107,7 @@ public class Stage {
                         if (!a.isAlive()) {
                             continue;
                         }
+                        startRound(a);
                         System.out.println(String.format("轮到%s的回合了", a.getName()));
                         if (aliveTeamA.contains(a)) {
                             if (aliveTeamB.isEmpty()) {
@@ -111,6 +121,8 @@ public class Stage {
                             a.attack(aliveTeamA.get(0));
                         }
                         Thread.sleep(800);
+                        // A的回合结束
+                        endRound(a);
                     }
 //                    actionList.forEach(a -> {
 //                    });

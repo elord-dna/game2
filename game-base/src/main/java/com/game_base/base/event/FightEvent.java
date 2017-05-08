@@ -17,5 +17,6 @@ public enum FightEvent {
 
     BEFOREFIGHT,
     AFTERFIGHT,
+    ATTACK,
     ;
 }

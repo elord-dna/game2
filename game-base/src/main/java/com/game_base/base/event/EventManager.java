@@ -11,6 +11,7 @@ public class EventManager {
     private static EventManager eventManager;
     // 仅作为战斗用的事件管理器
     private static Map<FightRole, Map<FightEvent, List<CallAction>>> eventMap;
+    // IMPROVE 重新设计，目前还存放了一些关于stage的信息，可以写为stageContext，这里精简为只涉及时间参数
     private static EventContext eventContext;
 
     static {

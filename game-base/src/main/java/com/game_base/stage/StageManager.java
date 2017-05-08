@@ -3,10 +3,7 @@ package com.game_base.stage;
 import java.util.List;
 
 import com.game_base.base.FightRole;
-import com.game_base.base.event.Callback;
-import com.game_base.base.event.EventManager;
-import com.game_base.base.event.FightEvent;
-import com.game_base.base.event.IFightEvent;
+import com.game_base.base.event.*;
 import com.game_base.listener.AbstractStageEventListener;
 import com.game_base.listener.TestEventListener;
 
@@ -75,5 +72,15 @@ public class StageManager {
         // 是否暴露给外部扩展
         EventManager eventManager = getEventManager();
         eventManager.on(role, event, callback);
+    }
+
+    public void startRound(FightRole role) {
+        EventContext eventContext = getEventManager().getEventContext();
+        eventContext.setCurrentObj(role);
+    }
+
+    public void endRound(FightRole role) {
+        EventContext eventContext = getEventManager().getEventContext();
+        eventContext.clearAll();
     }
 }
