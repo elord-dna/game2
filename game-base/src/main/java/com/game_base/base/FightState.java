@@ -10,7 +10,8 @@ public enum FightState {
     DIED,
     WEAK,
     WAKEUP,
-    SLEEPY,
+    SLEEPY,       // When Sleepy, role would not move forward, and would wake up when being attacked
     HURT,
+    BLEEDING,   // When bleeding, atk lows down by 20% and def lows down by 50%
     TAIRED;
 }

@@ -239,6 +239,10 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         eventManager.on(this, event ,callback);
     }
 
+    public void on(FightEvent event, Callback callback, int times) {
+        eventManager.on(this, event, callback, times);
+    }
+
     @Override
     public void one(FightEvent event, Callback callback) {
         eventManager.one(this, event, callback);
@@ -247,6 +251,13 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
     @Override
     public void triggle(FightEvent event) {
         eventManager.triggle(this, event);
+    }
+
+    @Override
+    public void beDamaged(FightRole role, int val) {
+        setHp(getHp() - val);
+        stageManager.getStageChecker().diedChecker();
+        stageManager.getStageChecker().endChecker();
     }
 
     @Override

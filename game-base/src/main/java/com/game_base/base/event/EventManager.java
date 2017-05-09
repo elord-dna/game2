@@ -46,6 +46,17 @@ public class EventManager {
         }
         return lists;
     }
+
+    private void setCallActions(FightRole role, FightEvent event, List<CallAction> lists) {
+        Map<FightEvent, List<CallAction>> eventList = getEventMap().get(role);
+        if (eventList == null) {
+            eventList = new HashMap<>();
+            eventList.put(event, lists);
+            getEventMap().put(role, eventList);
+        } else {
+            eventList.put(event, lists);
+        }
+    }
     public EventContext getEventContext() {
         return eventContext;
     }
@@ -101,9 +112,16 @@ public class EventManager {
         if (callActions == null) {
             return;
         }
-        callActions.forEach(Callback::call);
+        List<CallAction> copy = new ArrayList<>(callActions);
+        Collections.copy(copy, callActions);
+//        callActions.clear();
+        // 让复制遍历，新加入的buff就会下次运行了
+        copy.forEach(Callback::call);
         callActions.removeIf(callAction -> {
             return !callAction.isEffective();
         });
+
+//        copy.addAll(callActions);
+//        setCallActions(role, event, copy);
     }
 }

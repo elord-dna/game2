@@ -8,6 +8,7 @@ import com.game_base.base.FightRole;
 import com.game_base.base.Player;
 import com.game_base.base.PlayerFactory;
 import com.game_base.base.skillimpl.buff.HealthDrink;
+import com.game_base.base.skillimpl.debuff.Bleeding;
 import com.game_base.base.skillimpl.once.HeavyHit;
 import com.game_base.stage.Stage;
 import com.game_base.stage.StageManager;
@@ -25,7 +26,9 @@ public class Test {
         Player pa2 = new Player(PlayerFactory.createPlayer("pa2"));
         Player pb1 = new Player(PlayerFactory.createPlayer("pb1"));
         Player pb2 = new Player(PlayerFactory.createPlayer("pb2"));
-        pa1.equipSkill(new HeavyHit(2));
+        pa1.equipSkill(new HeavyHit(1));
+        pa1.equipSkill(new Bleeding(1));
+        pa1.equipSkill(new HealthDrink(4));
         pb1.equipSkill(new HealthDrink(4));
         teamA.add(pa1);
         log.info("pa1: {}", pa1.toString());
