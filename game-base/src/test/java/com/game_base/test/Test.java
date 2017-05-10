@@ -1,9 +1,5 @@
 package com.game_base.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import com.game_base.base.FightRole;
 import com.game_base.base.Player;
 import com.game_base.base.PlayerFactory;
@@ -14,7 +10,9 @@ import com.game_base.stage.Stage;
 import com.game_base.stage.StageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.spi.LoggerContextFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
     private static final Logger log = LogManager.getLogger(Test.class);

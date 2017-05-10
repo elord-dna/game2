@@ -113,7 +113,7 @@ public class EventManager {
             return;
         }
         List<CallAction> copy = new ArrayList<>(callActions);
-        Collections.copy(copy, callActions);
+//        Collections.copy(copy, callActions);
 //        callActions.clear();
         // 让复制遍历，新加入的buff就会下次运行了
         copy.forEach(Callback::call);

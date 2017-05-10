@@ -1,15 +1,15 @@
 package com.game_base.base;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.game_base.base.action.FightAction;
 import com.game_base.base.event.Callback;
 import com.game_base.base.event.FightEvent;
 import com.game_base.base.event.IFightEvent;
 import com.game_base.stage.StageManager;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 战斗属性独立出来
@@ -24,6 +24,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
     private int def = 0;
     private int speed = 1;
     private Set<FightState> fightState = new HashSet<>();
+    private List<Buff> buffList = new ArrayList<>();
     private FightStruct fightStruct;
 
     private StageManager stageManager = StageManager.getInstance();
@@ -145,6 +146,14 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         return skillList;
     }
 
+    public List<Buff> getBuffList() {
+        return buffList;
+    }
+
+    public void setBuffList(List<Buff> buffList) {
+        this.buffList = buffList;
+    }
+
     public void upAtk(int val) {
         setFightAtk(getFightAtk() + val);
         triggle(FightEvent.UPATK);
@@ -228,6 +237,49 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         // TODO judge if skill is permit
         skillList.add(skill);
         skill.init();
+    }
+
+    public void gainBuff(Buff buff) {
+        int posi = isExsitBuff(buff);
+        if (posi > -1) {
+            // TODO combine
+            freshBuff(posi, buff);
+        } else {
+            buffList.add(buff);
+        }
+    }
+
+    public int getBuffLevel(String name, FightRole from) {
+        for (Buff b : buffList) {
+            if (name.equals(b.getName())
+                    && from.equals(b.getFrom())) {
+                return b.getLevel();
+            }
+        }
+        return 0;
+    }
+
+    private void freshBuff(int posi, Buff buff) {
+        Buff b = buffList.get(posi);
+        int max = buff.getMaxLevel();
+        if (max > b.getLevel()) {
+            b.setLevel(b.getLevel() + 1);
+        }
+
+        b.setRounds(buff.getRounds());
+    }
+
+    public int isExsitBuff(Buff buff) {
+        int posi = 0;
+        for (Buff b : buffList) {
+            if (buff.getName().equals(b.getName())
+                    && buff.getFrom().equals(b.getFrom())
+                    && buff.getType().equals(b.getType())) {
+                return posi;
+            }
+            ++ posi;
+        }
+        return -1;
     }
 
     public void toCurrentRole() {
