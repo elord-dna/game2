@@ -14,9 +14,9 @@ import java.util.Random;
  */
 public class Bleeding extends Skill {
     private static final Logger log = LogManager.getLogger(Bleeding.class);
-    private final double possi = 0.75;  // 0.25 possibility
+    private final double possi = 0.98 + 1;  // 0.25 possibility
     private final int dmgbase = 1;     // 伤害基数
-    private final int times = 2;
+    private final int times = 3;
     private final int maxLevel = 2;
 
     public Bleeding(int lv) {
@@ -38,7 +38,10 @@ public class Bleeding extends Skill {
         if (isBleeding) {
             // IMPROVE 需要进一步的设定
             log.info("again");
-            aimed.gainBuff(buff);
+            int lv = aimed.getBuffLevel(buff.getName(), buff.getFrom());
+            if (lv < 3) {  // 测试能否无限正常刷新
+                aimed.gainBuff(buff);
+            }
             // update bleeding event
             return;
         } else {
@@ -46,12 +49,12 @@ public class Bleeding extends Skill {
             aimed.getFightState().add(FightState.BLEEDING);
             aimed.gainBuff(buff);
         }
-        aimed.on(FightEvent.AFTERFIGHT,() -> {
+        aimed.on(FightEvent.BEFOREEND,() -> {
             int bufflevel = aimed.getBuffLevel("bleeding", user);
             int dmg = dmgbase * getLevel() * bufflevel;
             aimed.beDamaged(user, dmg);
             log.info("{}血管炸裂，流血不止，失去了{}HP", aimed.getName(), dmg);
-        }, times);
+        }, buff.getFrom(), buff.getName());
     }
 
     @Override

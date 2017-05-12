@@ -82,6 +82,10 @@ public class Stage {
         StageManager.getInstance().startRound(role);
     }
 
+    private void beforeEndRound(FightRole role) {
+        StageManager.getInstance().beforeEndRound(role);
+    }
+
     private void endRound(FightRole role) {
         // TODO role的回合结束
         StageManager.getInstance().startRound(role);
@@ -121,6 +125,7 @@ public class Stage {
                             a.attack(aliveTeamA.get(0));
                         }
                         Thread.sleep(800);
+                        beforeEndRound(a);
                         // A的回合结束
                         endRound(a);
                     }

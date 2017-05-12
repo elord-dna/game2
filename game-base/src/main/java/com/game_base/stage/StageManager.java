@@ -79,6 +79,14 @@ public class StageManager {
         eventContext.setCurrentObj(role);
     }
 
+    protected void roundReady(FightRole role) {
+        role.triggle(FightEvent.ROUNDREADY);
+    }
+
+    protected void beforeEndRound(FightRole role) {
+        role.triggle(FightEvent.BEFOREEND);
+    }
+
     public void endRound(FightRole role) {
         EventContext eventContext = getEventManager().getEventContext();
         eventContext.clearAll();

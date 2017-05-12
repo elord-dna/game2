@@ -4,7 +4,10 @@ import com.game_base.base.action.FightAction;
 import com.game_base.base.event.Callback;
 import com.game_base.base.event.FightEvent;
 import com.game_base.base.event.IFightEvent;
+import com.game_base.base.event.StageEvent;
 import com.game_base.stage.StageManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +20,7 @@ import java.util.Set;
  * @author Mr.H
  */
 public abstract class FightRole extends Role implements FightAction, IFightEvent {
+    private static final Logger log = LogManager.getLogger(FightRole.class);
 
     private int maxHp = 1;
     private int hp = 0;
@@ -239,6 +243,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         skill.init();
     }
 
+    // 获取/（刷新）buff
     public void gainBuff(Buff buff) {
         int posi = isExsitBuff(buff);
         if (posi > -1) {
@@ -249,11 +254,40 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         }
     }
 
+    // buff触发而减少层数甚至失去
+    public void lackBuff(String name, FightRole from) {
+        for (Buff b : buffList) {
+            if (name.equals(b.getName())
+                    && from.equals(b.getFrom())) {
+                int rounds = b.getRounds();
+                if (rounds < 1) {
+                    // TODO throw exception
+                    log.error("throw exception, rounds is {}", rounds);
+                } else {
+                    b.setRounds(rounds - 1);
+                }
+                break;
+            }
+        }
+
+        clearBuff();
+    }
+
     public int getBuffLevel(String name, FightRole from) {
         for (Buff b : buffList) {
             if (name.equals(b.getName())
                     && from.equals(b.getFrom())) {
                 return b.getLevel();
+            }
+        }
+        return 0;
+    }
+
+    public int getBuffRounds(String name, FightRole from) {
+        for (Buff b : buffList) {
+            if (name.equals(b.getName())
+                    && from.equals(b.getFrom())) {
+                return b.getRounds();
             }
         }
         return 0;
@@ -282,6 +316,12 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         return -1;
     }
 
+    private void clearBuff() {
+        buffList.removeIf(b->{
+            return (b.getLevel() < 1 || b.getRounds() < 1);
+        });
+    }
+
     public void toCurrentRole() {
         stageManager.getEventManager().getEventContext().setCurrentObj(this);
     }
@@ -295,6 +335,10 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         eventManager.on(this, event, callback, times);
     }
 
+    public void on(FightEvent event, Callback callback, FightRole from, String buffName) {
+        eventManager.on(this, event, callback, from, buffName);
+    }
+
     @Override
     public void one(FightEvent event, Callback callback) {
         eventManager.one(this, event, callback);
@@ -303,6 +347,11 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
     @Override
     public void triggle(FightEvent event) {
         eventManager.triggle(this, event);
+    }
+
+    @Override
+    public void triggle(StageEvent event) {
+
     }
 
     @Override

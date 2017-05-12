@@ -15,8 +15,21 @@ public enum FightEvent {
     UPDEF,
     DOWNDEF,
 
+    // Stage Event --------------
+    INIT,
+
+    STARTROUND,
+    ROUNDPREPARE,
+    ROUNDREADY,
+
     BEFOREFIGHT,
+    FIGHT,
     AFTERFIGHT,
     ATTACK,
+
+
+    BEFOREEND,
+    END,
+    // -----------------------------
     ;
 }

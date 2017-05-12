@@ -103,6 +103,11 @@ public class EventManager {
         bindAction(role, event, new CallAction(callback, times));
     }
 
+    // 根据buff来确认时间，默认是非永久的
+    public void on(FightRole role, FightEvent event, Callback callback, FightRole from, String buffName) {
+        bindAction(role, event, new CallAction(callback, false, role, from, buffName));
+    }
+
     public void one(FightRole role, FightEvent event, Callback callback) {
         bindAction(role, event, new CallAction(callback, 1));
     }

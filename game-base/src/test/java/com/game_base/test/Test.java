@@ -24,10 +24,10 @@ public class Test {
         Player pa2 = new Player(PlayerFactory.createPlayer("pa2"));
         Player pb1 = new Player(PlayerFactory.createPlayer("pb1"));
         Player pb2 = new Player(PlayerFactory.createPlayer("pb2"));
-        pa1.equipSkill(new HeavyHit(1));
+//        pa1.equipSkill(new HeavyHit(1));
         pa1.equipSkill(new Bleeding(1));
-        pa1.equipSkill(new HealthDrink(4));
-        pb1.equipSkill(new HealthDrink(4));
+//        pa1.equipSkill(new HealthDrink(4));
+//        pb1.equipSkill(new HealthDrink(4));
         teamA.add(pa1);
         log.info("pa1: {}", pa1.toString());
 //        teamA.add(pa2);

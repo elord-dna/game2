@@ -37,4 +37,6 @@ public interface IFightEvent {
     void one(FightEvent event, Callback callback);
 
     void triggle(FightEvent event);
+
+    void triggle(StageEvent event);
 }
