@@ -5,6 +5,7 @@ import com.game_base.base.event.Callback;
 import com.game_base.base.event.FightEvent;
 import com.game_base.base.event.IFightEvent;
 import com.game_base.base.event.StageEvent;
+import com.game_base.base.skill.AbstractSkill;
 import com.game_base.stage.StageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +35,12 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
     private StageManager stageManager = StageManager.getInstance();
     private List<Skill> skillList;
 
+    /**
+     * v 0.3
+     * 新的技能序列
+     */
+    private List<AbstractSkill> skillList_v03;
+
     protected FightRole() {
     }
 
@@ -43,6 +50,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         this.fightState.add(FightState.ALIVE);
         this.fightStruct = new FightStruct(this);
         skillList = new ArrayList<>();
+        skillList_v03 = new ArrayList<>();
     }
 
     public FightRole(FightRole fr) {
@@ -63,6 +71,16 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
         fightState.clear();
         fightState.add(FightState.DIED);
         System.out.println(String.format("%s失去了战斗力", this.getName()));
+    }
+
+    /**
+     * v 0.3
+     * 为角色添加技能
+     * @param skill
+     */
+    public void addSkill(AbstractSkill skill) {
+        skill.setUser(this);
+        skillList_v03.add(skill);
     }
 
     public int getMaxHp() {
@@ -346,7 +364,7 @@ public abstract class FightRole extends Role implements FightAction, IFightEvent
 
     @Override
     public void triggle(FightEvent event) {
-        eventManager.triggle(this, event);
+        eventManager.trigger(this, event);
     }
 
     @Override

@@ -112,7 +112,7 @@ public class EventManager {
         bindAction(role, event, new CallAction(callback, 1));
     }
 
-    public void triggle(FightRole role, FightEvent event) {
+    public void trigger(FightRole role, FightEvent event) {
         List<CallAction> callActions = getCallActions(role, event);
         if (callActions == null) {
             return;
