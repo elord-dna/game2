@@ -7,9 +7,26 @@ import com.game_base.base.FightRole;
  */
 public abstract class AbstractStageEventListener implements IEventListener {
 
+    /**
+     * gain health anyway event
+     * @param role
+     * @param val
+     */
     public abstract void onGainHealth(FightRole role, int val);
+
+    /**
+     * lose health, including losing without hurts
+     * @param role
+     * @param val
+     */
     public abstract void onLoseHealth(FightRole role, int val);
     public abstract void onCauseDamage(FightRole role, int val);
     public abstract void onBeDamaged(FightRole role, int val);
+
+    /**
+     * whenever get hurt
+     * @param role
+     * @param val
+     */
     public abstract void onGetHurt(FightRole role, int val);
 }

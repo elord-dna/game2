@@ -2,6 +2,9 @@ package com.game_base.listener;
 
 import com.game_base.base.Role;
 
+/**
+ * to handle the callback of every base role movement
+ */
 public interface IRoleListener extends IEventListener {
     // when talk with other role, or even self
     default void onTalk(Role role) {};
